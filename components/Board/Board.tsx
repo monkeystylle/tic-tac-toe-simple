@@ -12,6 +12,8 @@ const Board = (props: Props) => {
   );
   const [winner, setWinner] = useState<Player>(null);
 
+  console.log('squares:', squares);
+
   const setSquareValue = (index: number) => {
     const newData = squares.map((val, i) => {
       if (i === index) {
@@ -50,6 +52,7 @@ const Board = (props: Props) => {
         squares[a] === squares[b] &&
         squares[a] === squares[c]
       ) {
+        console.log('Winner:', squares[a]);
         return squares[a];
       }
     }
@@ -57,6 +60,7 @@ const Board = (props: Props) => {
 
   useEffect(() => {
     const w = calculateWinner(squares);
+    console.log('atut', w);
     if (w) {
       setWinner(w);
     }
@@ -83,7 +87,7 @@ const Board = (props: Props) => {
               <Square
                 winner={winner}
                 key={i}
-                onClick={() => setSquareValue(i)}
+                setSquareValue={() => setSquareValue(i)}
                 value={squares[i]}
               />
             );

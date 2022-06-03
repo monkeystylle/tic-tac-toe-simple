@@ -6,12 +6,12 @@ export type Player = 'X' | 'O' | 'BOTH' | null;
 type Props = {
   winner: Player;
   value: Player;
-  onClick: () => void;
+  setSquareValue: () => void;
 };
 
-const Square = ({ value, onClick, winner }: Props) => {
+const Square = ({ value, setSquareValue, winner }: Props) => {
   if (!value) {
-    return <SquareButton onClick={onClick} disabled={Boolean(winner)} />;
+    return <SquareButton onClick={setSquareValue} disabled={Boolean(winner)} />;
   }
 
   return <SquareButton>{value}</SquareButton>;
