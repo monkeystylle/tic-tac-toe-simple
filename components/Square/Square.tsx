@@ -14,13 +14,20 @@ const Square = ({ value, onClick, winner }: Props) => {
     return <SquareButton onClick={onClick} disabled={Boolean(winner)} />;
   }
 
-  return <SquareButton disabled>{value}</SquareButton>;
+  return <SquareButton>{value}</SquareButton>;
 };
 
 const SquareButton = styled.button`
   cursor: pointer;
 
   font-size: 4rem;
+  border: none;
+  color: #a6a6a6;
+
+  &:disabled {
+    background-color: #f3f3f3;
+    cursor: revert;
+  }
 `;
 
 export default Square;
