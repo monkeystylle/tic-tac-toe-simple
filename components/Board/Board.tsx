@@ -11,6 +11,7 @@ const Board = (props: Props) => {
     Math.round(Math.random() * 1) === 1 ? 'X' : 'O'
   );
   const [winner, setWinner] = useState<Player>(null);
+  const [winningLine, setWinningLine] = useState<number[] | null>();
 
   console.log('squares:', squares);
 
@@ -31,6 +32,8 @@ const Board = (props: Props) => {
     setSquares(Array(9).fill(null));
     setWinner(null);
     setCurrentPlayer(Math.round(Math.random() * 1) === 1 ? 'X' : 'O');
+    setWinningLine([null, null, null]);
+    console.log('WININGLINE:', winningLine);
   };
 
   const calculateWinner = (squares: Player[]) => {
@@ -79,23 +82,29 @@ const Board = (props: Props) => {
       ) {
         console.log('Winning Line:', lines[i]);
         return lines[i];
+        // setWinningLine(lines[i]);
       }
     }
   };
 
-  const winningLine = getWinningLine(squares);
+  const winnerSquares = getWinningLine(squares);
 
   useEffect(() => {
     const w = calculateWinner(squares);
     console.log('atut', w);
     if (w) {
       setWinner(w);
+      // getWinningLine(squares);
     }
     //if there is no winner after ll the squares filled.
     if (!w && !squares.filter(square => !square).length) {
       setWinner('BOTH');
     }
   });
+
+  useEffect(() => {
+    setWinningLine(winnerSquares);
+  }, [squares]);
 
   return (
     <BoardWrapper>
@@ -104,7 +113,9 @@ const Board = (props: Props) => {
         <WinnerMessage>Congratulations!! Player {winner} </WinnerMessage>
       )}
       {winner && winner === 'BOTH' && (
-        <WinnerMessage>Congratulations your both Winner!! </WinnerMessage>
+        <BothWinnerMessage>
+          Congratulations your both Winner!!{' '}
+        </BothWinnerMessage>
       )}
       <GridBoard>
         {Array(9)
@@ -136,6 +147,11 @@ const BoardWrapper = styled.div`
 
 const WinnerMessage = styled.p`
   font-size: 1.4rem;
+  margin-bottom: 4px;
+`;
+
+const BothWinnerMessage = styled.p`
+  font-size: 1.2rem;
   margin-bottom: 4px;
 `;
 

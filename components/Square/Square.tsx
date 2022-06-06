@@ -15,9 +15,9 @@ interface IsquareButton {
   atut?: number;
   color?: string;
   squareNumber: number;
-  an: number;
-  bn: number;
-  cn: number;
+  winningSquare1: number;
+  winningSquare2: number;
+  winningSquare3: number;
 }
 
 const Square = ({
@@ -27,16 +27,16 @@ const Square = ({
   squareNumber,
   winningLine,
 }: Props) => {
-  const [a, setA] = useState<number>();
-  const [b, setB] = useState<number>();
-  const [c, setC] = useState<number>();
+  const [winningSquare1, setWinningSquare1] = useState<number>();
+  const [winningSquare2, setWinningSquare2] = useState<number>();
+  const [winningSquare3, setWinningSquare3] = useState<number>();
 
   useEffect(() => {
     if (winningLine) {
       const [a, b, c] = winningLine;
-      setA(a);
-      setB(b);
-      setC(c);
+      setWinningSquare1(a);
+      setWinningSquare2(b);
+      setWinningSquare3(c);
     }
   }, [winner]);
 
@@ -46,7 +46,12 @@ const Square = ({
 
   return (
     <SquareButton>
-      <AnimateWrapper an={a} bn={b} cn={c} squareNumber={squareNumber} atut={6}>
+      <AnimateWrapper
+        winningSquare1={winningSquare1}
+        winningSquare2={winningSquare2}
+        winningSquare3={winningSquare3}
+        squareNumber={squareNumber}
+      >
         {value}
       </AnimateWrapper>
     </SquareButton>
@@ -63,8 +68,15 @@ const blink = keyframes`
 `;
 
 const AnimateWrapper = styled.span<IsquareButton>`
-  animation: ${({ squareNumber, an, bn, cn }) =>
-    squareNumber === an || squareNumber === bn || squareNumber === cn
+  animation: ${({
+    squareNumber,
+    winningSquare1,
+    winningSquare2,
+    winningSquare3,
+  }) =>
+    squareNumber === winningSquare1 ||
+    squareNumber === winningSquare2 ||
+    squareNumber === winningSquare3
       ? css`
           ${blink} 1000ms infinite
         `
@@ -79,7 +91,7 @@ const SquareButton = styled.button`
   color: #a6a6a6;
 
   &:disabled {
-    background-color: #f3f3f3;
+    background-color: #f0f0f0;
     cursor: revert;
   }
 `;
